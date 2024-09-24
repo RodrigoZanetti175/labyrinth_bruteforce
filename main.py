@@ -64,50 +64,75 @@ def navigate(
     track = []
     previous: List[Tuple[int,int]]
     previous = []
-    
-    for i in interssections:
+    i = 0
+    while i <= len(interssections):
         track.append(current)
-        check = False
+        check = False 
         if current[0] == end[0] or current[1] == end[1]:
+            if current[0] == end[0] and end[1] > current[1]:
+                for j in range(end[1] - current[1]):
+                    track.append((end[0], current[1]+(j+1)))
+            if current[0] == end[0] and current[1] > end[1]:
+                for j in range(current[1]-end[1]-1):
+                    track.append((end[0], end[1]+(j+1)))
+            if current[1] == end[1] and current[0] > end[0]:
+                for j in range(end[1] - current[1]) 
+            
+                
             print('c')
             return track
-        if(i[0] == current[0] and i not in previous):
+        if(interssections[i][0] == current[0] and interssections[i] not in previous):
             print('a ' + str(current))
             check = True
             previous.append(current)
-            if i[1] > current[1]:
-                for j in range(i[1] - current[1] - 1):
-                    track.append((i[0],current[1]+(j+1)))
-            if current[1] > i[1]:
-                for j in range(current[1] - i[1] - 1):
-                    track.append((i[0], i[1]+(j+1)))
+            if interssections[i][1] > current[1]:
+                for j in range(interssections[i][1] - current[1]):
+                    if(m[interssections[i][0]][current[1]+(j+1)]):
+                        check = False 
+                    track.append((interssections[i][0],current[1]+(j+1)))
+            if current[1] > interssections[i][1]:
+                for j in range(current[1] - interssections[i][1] - 1):
+                    if(m[interssections[i][0]][interssections[i][1]+(j+1)]):
+                        check = False
+                    track.append((interssections[i][0], interssections[i][1]+(j+1)))
                     # Salvar a ultima interssecção e se der errado ler track em ordem reversa para encontrar de onde
                     # é preciso continuar a procurar e excluir todo o caminho feito a partir daquele ponto.
-        if(i[1] == current[1] and i not in previous):
+        if(interssections[i][1] == current[1] and interssections[i] not in previous):
             print('b ' + str(current))
             previous.append(current)
             check = True
-            if i[0] > current[0]:
-                for j in range(i[0]-current[0]-1):
-                    track.append((current[0]+(j+1),i[1]))
-            if current[0] > i[0]:
-                for j in range(current[0]-i[0]-1):
-                    track.append((i[0]+(j+1),i[1]))                    
+            if interssections[i][0] > current[0]:
+                for j in range(interssections[i][0]-current[0]-1):
+                    if(m[current[0]+(j+1)][interssections[i][1]]):
+                        check = False
+                    track.append((current[0]+(j+1),interssections[i][1]))
+            if current[0] > interssections[i][0]:
+                for j in range(current[0]-interssections[i][0]-1):
+                    if(m[interssections[i][0]+(j+1)][interssections[i][1]]):
+                        check = False
+                    track.append((interssections[i][0]+(j+1),interssections[i][1]))                    
         elif not check:
             #É necessário arrumar alguma maneira de ele reitarar pelos valores de interssections
             #para que ele consiga voltar a valores de "decisão"
+
+            #Arrumar maneira de iterar desde  o começo todas as vezes 
             print('d ' + str(current))
             print(previous)
-            target_index = track.index(previous[len(previous)-1])
+            target_index = track.index((previous[-1]))
             print(track)
             track = track[:target_index+1]
             print(track)
             interssections.remove(current)
-            previous.pop 
             print(previous)
-            
-            
-        current = i
+            print(interssections)
+            previous.pop()
+            print(i)
+            current = track[target_index]
+            i = 0
+            continue
+
+        current = interssections[i]
+        i += 1
         
         
 
