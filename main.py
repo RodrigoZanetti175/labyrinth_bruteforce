@@ -52,6 +52,11 @@ def get_interssections(m: List[List[int]]) -> List[Tuple[int, int]]:
             if vertical and horizontal:
                 interssections.append((i,j))                
     return interssections
+def print_t_map(m: List[List[int]], t: List[Tuple[int,int]]) -> None:
+    for row in m:
+        for pos in row:
+            print(colors[pos] + str(pos), RESET, end="")
+        print("")
 
 def navigate(
     m: List[List[int]],
@@ -76,9 +81,11 @@ def navigate(
                 for j in range(current[1]-end[1]-1):
                     track.append((end[0], end[1]+(j+1)))
             if current[1] == end[1] and current[0] > end[0]:
-                for j in range(end[1] - current[1]) 
-            
-                
+                for j in range(end[1] - current[1]-1):
+                    track.append((current[0]+(j+1), end[1]))
+            if current[1] == end[1] and end[0] > current[0]:
+                for j in range(current[0]-end[0]-1):
+                    track.append((end[0]+(j+1),end[1]))   
             print('c')
             return track
         if(interssections[i][0] == current[0] and interssections[i] not in previous):
