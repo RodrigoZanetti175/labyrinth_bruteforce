@@ -61,23 +61,65 @@ def navigate(
     ) -> List[Tuple[int,int]]:
     current = start
     track: List[Tuple[int,int]]
-    track.append(current)
+    track = []
+    previous: List[Tuple[int,int]]
+    previous = []
+    
     for i in interssections:
-        if(i[0] == current[0]):
+        track.append(current)
+        check = False
+        if current[0] == end[0] or current[1] == end[1]:
+            print('c')
+            return track
+        if(i[0] == current[0] and i not in previous):
+            print('a ' + str(current))
+            check = True
+            previous.append(current)
             if i[1] > current[1]:
-                for j in range(i[1]-current[1]):
-                    track.append((i[0],j+current[1]))
+                for j in range(i[1] - current[1] - 1):
+                    track.append((i[0],current[1]+(j+1)))
+            if current[1] > i[1]:
+                for j in range(current[1] - i[1] - 1):
+                    track.append((i[0], i[1]+(j+1)))
                     # Salvar a ultima interssecção e se der errado ler track em ordem reversa para encontrar de onde
                     # é preciso continuar a procurar e excluir todo o caminho feito a partir daquele ponto.
-                    
-        #Condição de Fim
-        if current == end:
-            return track
+        if(i[1] == current[1] and i not in previous):
+            print('b ' + str(current))
+            previous.append(current)
+            check = True
+            if i[0] > current[0]:
+                for j in range(i[0]-current[0]-1):
+                    track.append((current[0]+(j+1),i[1]))
+            if current[0] > i[0]:
+                for j in range(current[0]-i[0]-1):
+                    track.append((i[0]+(j+1),i[1]))                    
+        elif not check:
+            #É necessário arrumar alguma maneira de ele reitarar pelos valores de interssections
+            #para que ele consiga voltar a valores de "decisão"
+            print('d ' + str(current))
+            print(previous)
+            target_index = track.index(previous[len(previous)-1])
+            print(track)
+            track = track[:target_index+1]
+            print(track)
+            interssections.remove(current)
+            previous.pop 
+            print(previous)
+            
+            
+        current = i
+        
+        
 
    # (p[0], p[1] - 1) -> cima
    # (p[0], p[1] + 1) -> baixo
    # (p[0] - 1, p[1]) -> esquerda
    # (p[0] + 1, p[1]) -> direita
+   
+   #a -> mesma linha
+   #b -> mesma coluna
+   #c -> final
+   #d -> voltar
 
 if __name__ == "__main__":
     f = open("./labyrinth.txt")
