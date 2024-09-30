@@ -53,9 +53,14 @@ def get_interssections(m: List[List[int]]) -> List[Tuple[int, int]]:
                 interssections.append((i,j))                
     return interssections
 def print_t_map(m: List[List[int]], t: List[Tuple[int,int]]) -> None:
-    for row in m:
-        for pos in row:
-            print(colors[pos] + str(pos), RESET, end="")
+     for i, row in enumerate(m):
+        for j, pos in enumerate(row):
+            if pos == 2:
+                print(YELLOW + "#", RESET, end="")
+            elif (i, j) in t:
+                print(YELLOW + "@", RESET, end="")
+            else:
+                print(colors[pos] + str(pos), RESET, end="")
         print("")
 
 def navigate(
@@ -86,10 +91,10 @@ def navigate(
             if current[1] == end[1] and end[0] > current[0]:
                 for j in range(current[0]-end[0]-1):
                     track.append((end[0]+(j+1),end[1]))   
-            print('c')
+            #print('c')
             return track
         if(interssections[i][0] == current[0] and interssections[i] not in previous):
-            print('a ' + str(current))
+            #print('a ' + str(current))
             check = True
             previous.append(current)
             if interssections[i][1] > current[1]:
@@ -105,7 +110,7 @@ def navigate(
                     # Salvar a ultima interssecção e se der errado ler track em ordem reversa para encontrar de onde
                     # é preciso continuar a procurar e excluir todo o caminho feito a partir daquele ponto.
         if(interssections[i][1] == current[1] and interssections[i] not in previous):
-            print('b ' + str(current))
+            #print('b ' + str(current))
             previous.append(current)
             check = True
             if interssections[i][0] > current[0]:
@@ -123,17 +128,17 @@ def navigate(
             #para que ele consiga voltar a valores de "decisão"
 
             #Arrumar maneira de iterar desde  o começo todas as vezes 
-            print('d ' + str(current))
-            print(previous)
+            #print('d ' + str(current))
+            #print(previous)
             target_index = track.index((previous[-1]))
-            print(track)
+            #print(track)
             track = track[:target_index+1]
-            print(track)
+            #print(track)
             interssections.remove(current)
-            print(previous)
-            print(interssections)
+            #print(previous)
+            #print(interssections)
             previous.pop()
-            print(i)
+            #print(i)
             current = track[target_index]
             i = 0
             continue
@@ -154,7 +159,7 @@ def navigate(
    #d -> voltar
 
 if __name__ == "__main__":
-    f = open("./labyrinth.txt")
+    f = open("./labyrinth2.txt")
     map = []
     for line in f.readlines():
         linha = []
@@ -169,5 +174,6 @@ if __name__ == "__main__":
     interssections = get_interssections(map)
     print(get_start_end(map))
     print(get_interssections(map))
-    print(navigate(map, start, end, interssections))
+    track = navigate(map, start, end, interssections)
+    print_t_map(map, track)
     
