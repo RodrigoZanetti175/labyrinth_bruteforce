@@ -25,3 +25,19 @@ Deste modo, chegamos a uma solução que utiliza de alguns parâmetros e conceit
     - **Pontos de Intersecção**: Com a execução da função `get_intersections()`, o programa obeterá os pontos de intersecção do labirinto, que são a base da função principal de navegação. Os pontos de intersecção são aqueles pontos que dão acesso a mais de um sentido(horizontal e vertical), dando brecha para mais possibilidades de navegação.
 
 - Com os dados principais obtidos, o algoritmo pode iniciar a função principal do programa, que se trata de `navigate()`, a qual recebe .... parâmetros
+
+
+
+## Funções
+
+### `get_start_end()`
+
+#### Parâmetros
+
+- **Mapa do labirinto**: Uma lista que contém listas de tuplas formadas por 2 inteiros (linhas, colunas).
+
+####  Retorno
+
+Esta função retorna duas tuplas de dois inteiros (linha, coluna). A primeira representa a coordenada do começo do labirinto e a segunda o final do labirinto. 
+
+*É importante notar que a **primeira** coordenada com valor "2" que é encontrada pela função no mapa é definida como começo*
