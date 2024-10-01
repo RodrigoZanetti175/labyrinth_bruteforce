@@ -1,5 +1,10 @@
 # Explorador de Labirintos (Iterativo)
-### Dupla: Rodrigo Zanetti e Vinícius Crozato
+## Integrantes
+
+- [Breno Saraiva](https://github.com/BrenoSaraiva-exe)
+- [Jorge Terence](https://github.com/JorgeTerence)
+- [Rodrigo Zanetti](https://github.com/RodrigoZanetti175)
+- [Vinicius Crozato](https://github.com/ViniciusCrozato)
 
 ## Explicação da Ideia
 
@@ -24,8 +29,7 @@ Deste modo, chegamos a uma solução que utiliza de alguns parâmetros e conceit
 
     - **Pontos de Intersecção**: Com a execução da função `get_intersections()`, o programa obeterá os pontos de intersecção do labirinto, que são a base da função principal de navegação. Os pontos de intersecção são aqueles pontos que dão acesso a mais de um sentido(horizontal e vertical), dando brecha para mais possibilidades de navegação.
 
-- Com os dados principais obtidos, o algoritmo pode iniciar a função principal do programa, que se trata de `navigate()`, a qual recebe .... parâmetros
-
+- Com os dados principais obtidos, o algoritmo pode iniciar a função principal do programa, que se trata de `navigate()`, a qual será responsável por iterar pelos pontos de intersecção, começando pelo início, até encontrar a saída. Durante as iterações, caso o algoritmo acabe em um ponto de intersecção sem saída, a função é capaz de voltar ao ponto de intersecção mais próximo, excluindo o caminho formado até o ponto de intersecção sem saída, o qual é retirado da lista de pontos de intersecção navegáveis.
 
 
 ## Funções
@@ -41,3 +45,38 @@ Deste modo, chegamos a uma solução que utiliza de alguns parâmetros e conceit
 Esta função retorna duas tuplas de dois inteiros (linha, coluna). A primeira representa a coordenada do começo do labirinto e a segunda o final do labirinto. 
 
 *É importante notar que a **primeira** coordenada com valor "2" que é encontrada pela função no mapa é definida como começo*
+
+### `get_intersections()`
+
+#### Parâmetros
+
+- **Mapa do labirinto**: Uma lista que contém listas de tuplas formadas por 2 inteiros (linhas, colunas).
+
+#### Retorno
+
+Esta função retorna uma lista de tuplas(int, int), as quais representam as coordenadas dos pontos de intersecção no labirinto
+
+### `navigate()`
+
+
+#### Parâmetros
+
+- **Mapa do labirinto**: Uma lista que contém listas de tuplas formadas por 2 inteiros (linhas, colunas).
+- **Ponto de Início**: Uma tupla, formada por dois números inteiros, que representa as coordenadas do início do labirinto.
+- **Ponto de Saída**: Uma tupla, formada por dois números inteiros, que representa as coordenadas do saída do labirinto.
+- **Pontos de Intersecção**: Uma lista que contém tuplas formadas por 2 inteiros (linhas, colunas), as quais representam coordenadas de pontos de intersecção.
+
+#### Retorno
+
+Esta função retorna uma lista de tuplas (coordenadas), que representam os pontos pelos quais o caminho do começo até a saída são formados.
+
+
+## Análise Big O
+
+Através de algumas análises, foi possível notar que a parte de maior complexidade e peso do algoritmo se trata da iteração que é feita durante a função navigate, a qual pode ser reiniciada caso o caminho percorrido até determinado ponto não tenha saída. Portanto, foi notado que o a função para calcular o tempo de execução depende de duas principais variáveis, sendo elas:
+
+- n ⭢ número de pontos de intersecção;
+- m  ⭢ número de vezes que há um "reset" na iteração principal, o qual é causado por caminhos sem saída.
+
+Portanto, a notação Big O deste algoritmo pode ser transcrita para: **O(n*m)**
+

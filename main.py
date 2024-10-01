@@ -1,14 +1,3 @@
-#mapear entrada e saida
-
-#mapear pontos de interssecção 
-
-#se uma das direções for a esquerda, a outra nao pode ser direita, por que não seria uma real interssecção
-
-#partir de um dos pontos de entrada/saida até chegar em uma intersecção próxima
-#dessa interssecção
-
-#achar próximo ponto de intersecção
-
 from typing import List, Tuple
 
 
@@ -159,7 +148,7 @@ def navigate(
    #d -> voltar
 
 if __name__ == "__main__":
-    f = open("./labyrinth3.txt")
+    f = open("Labyrinths/labyrinth3.txt")
     map = []
     for line in f.readlines():
         linha = []
