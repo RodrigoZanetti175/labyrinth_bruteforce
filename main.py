@@ -97,7 +97,7 @@ def navigate2(
             return path #after this, we should have a function to build the path given the intersection points which make part of it
             done = True #Fim da navegação
         for i in intersections: # - this loop stands for finding if there are options
-            if current == i:
+            if current == i or i in previous:
                 continue
             if current[0] == i[0] or current[1] == i[1]:
                 print(current)
@@ -105,9 +105,12 @@ def navigate2(
                 if(not check_collision(m, current, i)):
                     options.append(i)
         if not options:
+            print("d")
+            print(str(path))
             path.pop()
             intersections.remove(current)
             current = previous[-1]
+            
         for opt in options: # - this loop iterates through the available options
             if current[0] == opt[0]:
                 # ! need to find a way to check if there is a wall on the way between the current point and the targeted intersection
