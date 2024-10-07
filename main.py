@@ -53,17 +53,26 @@ def check_collision(
         root: Tuple[int,int],
         target: Tuple[int,int]
 )-> bool:
-    root_rows = root[0]
+    root_row = root[0]
     root_column = root[1]
-    target_rows = target[0]
+    target_row = target[0]
     target_column = target[1]
 
-    if(root_rows == target_rows):
+    if(root_row == target_row):
         # - iterate through the columns to see if there is any collision
-        return True
+        lowest_column, highest_column = (root_column, target_column) if root_column < target_column else (target_column, root_column)
+
+        for i in range(highest_column - lowest_column + 1):
+            if(m[root_row][i + lowest_column] == 1):
+                print("colisao em colunas de mesma linha")
+                return True 
     if(root_column == target_column):
         # - iterate through the rows to see if there is any collision
-        return True
+        lowest_row, highest_row = (root_row, target_row) if root_row < target_row else (target_row, root_row)
+        for i in range(highest_row - lowest_row + 1):
+            if(m[i + lowest_row][root_column] == 1):
+                print("colisao em linhas de mesma coluna")
+                return True
     # - given two coordinates, this function should check if there is a wall on the way through these
     # - points (probably a simmilar logic to the get_intersection function)
     return False
@@ -75,18 +84,26 @@ def navigate2(
     ) -> List[Tuple[int,int]]:
     done = False 
     current = start
-    path = List[Tuple(int,int)]
+    path = List[Tuple[int,int]]
+    path = []
     options: List[Tuple[int,int]]
     previous: List[Tuple[int,int]]
+    previous = []
     while not done:
+        options = []
         if current[0] == end[0] or current[1] == end[1]:
             ######
             path.append(end)
             return path #after this, we should have a function to build the path given the intersection points which make part of it
             done = True #Fim da navegação
         for i in intersections: # - this loop stands for finding if there are options
+            if current == i:
+                continue
             if current[0] == i[0] or current[1] == i[1]:
-                options.append(i)
+                print(current)
+                print(i)
+                if(not check_collision(m, current, i)):
+                    options.append(i)
         if not options:
             path.pop()
             intersections.remove(current)
@@ -96,18 +113,23 @@ def navigate2(
                 # ! need to find a way to check if there is a wall on the way between the current point and the targeted intersection
                 # ! develop check_collision function
                 # ! maybe i can check if there is a collision on the options search loop (located previously)
+                print("a")
                 previous.append(current)
                 path.append(current)
                 current = opt
-                print("a")
                 # - if an option is found, it will go to next iteration (of 'while') to see if the path including that option can be (re)solved
                 # - if it can't , the algorithm should exclude that option from the intersections list and see if there are more available options from the previous intersection point.
                 # - the whole path will only be built after finding the correct intersection points path 
                 found = True
                 break
             if current[1] == opt[1]:
-                previous.append(current)
                 print("b")
+                previous.append(current)
+                path.append(current)
+                current = opt
+
+                found = True
+                break
         if found:
             continue
                 
@@ -222,5 +244,5 @@ if __name__ == "__main__":
     intersections = get_intersections(map)
     print(get_start_end(map))
     print(get_intersections(map))
-    track = navigate(map, start, end, intersections)
+    track = navigate2(map, start, end, intersections)
     print_t_map(map, track)
