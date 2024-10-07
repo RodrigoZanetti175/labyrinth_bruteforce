@@ -49,7 +49,21 @@ def print_t_map(m: List[List[int]], t: List[Tuple[int,int]]) -> None:
                 print(colors[pos] + str(pos), RESET, end="")
         print("")
 def check_collision(
-):
+        m: List[List[int]],
+        root: Tuple[int,int],
+        target: Tuple[int,int]
+)-> bool:
+    root_rows = root[0]
+    root_column = root[1]
+    target_rows = target[0]
+    target_column = target[1]
+
+    if(root_rows == target_rows):
+        # - iterate through the columns to see if there is any collision
+        return True
+    if(root_column == target_column):
+        # - iterate through the rows to see if there is any collision
+        return True
     # - given two coordinates, this function should check if there is a wall on the way through these
     # - points (probably a simmilar logic to the get_intersection function)
     return False
@@ -67,6 +81,8 @@ def navigate2(
     while not done:
         if current[0] == end[0] or current[1] == end[1]:
             ######
+            path.append(end)
+            return path #after this, we should have a function to build the path given the intersection points which make part of it
             done = True #Fim da navegação
         for i in intersections: # - this loop stands for finding if there are options
             if current[0] == i[0] or current[1] == i[1]:
@@ -84,7 +100,7 @@ def navigate2(
                 path.append(current)
                 current = opt
                 print("a")
-                # - if an option is found, it will go to next iteration to see if the path including that option can be (re)solved
+                # - if an option is found, it will go to next iteration (of 'while') to see if the path including that option can be (re)solved
                 # - if it can't , the algorithm should exclude that option from the intersections list and see if there are more available options from the previous intersection point.
                 # - the whole path will only be built after finding the correct intersection points path 
                 found = True
