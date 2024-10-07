@@ -48,7 +48,11 @@ def print_t_map(m: List[List[int]], t: List[Tuple[int,int]]) -> None:
             else:
                 print(colors[pos] + str(pos), RESET, end="")
         print("")
-
+def check_collision(
+):
+    # - given two coordinates, this function should check if there is a wall on the way through these
+    # - points (probably a simmilar logic to the get_intersection function)
+    return False
 def navigate2(
     m: List[List[int]],
     start: Tuple[int,int],
@@ -57,19 +61,40 @@ def navigate2(
     ) -> List[Tuple[int,int]]:
     done = False 
     current = start
+    path = List[Tuple(int,int)]
     options: List[Tuple[int,int]]
+    previous: List[Tuple[int,int]]
     while not done:
         if current[0] == end[0] or current[1] == end[1]:
             ######
             done = True #Fim da navegação
-        for i in intersections:
+        for i in intersections: # - this loop stands for finding if there are options
             if current[0] == i[0] or current[1] == i[1]:
                 options.append(i)
-        for opt in options:
+        if not options:
+            path.pop()
+            intersections.remove(current)
+            current = previous[-1]
+        for opt in options: # - this loop iterates through the available options
             if current[0] == opt[0]:
+                # ! need to find a way to check if there is a wall on the way between the current point and the targeted intersection
+                # ! develop check_collision function
+                # ! maybe i can check if there is a collision on the options search loop (located previously)
+                previous.append(current)
+                path.append(current)
+                current = opt
                 print("a")
+                # - if an option is found, it will go to next iteration to see if the path including that option can be (re)solved
+                # - if it can't , the algorithm should exclude that option from the intersections list and see if there are more available options from the previous intersection point.
+                # - the whole path will only be built after finding the correct intersection points path 
+                found = True
+                break
             if current[1] == opt[1]:
+                previous.append(current)
                 print("b")
+        if found:
+            continue
+                
 
 def navigate(
     m: List[List[int]],
