@@ -33,8 +33,8 @@ def get_intersections(m: List[List[int]]) -> List[Tuple[int, int]]:
             vertical = False
             horizontal = False
             if m[i][j] == 0:
-                horizontal = not m[i-1][j] or not m[i+1][j]
-                vertical = not m[i][j+1] or not m[i][j-1]
+                horizontal = m[i-1][j] != 1 or m[i+1][j] != 1
+                vertical = m[i][j+1] != 1 or m[i][j-1] != 1
             if vertical and horizontal:
                 intersections.append((i,j))                
     return intersections
@@ -76,6 +76,13 @@ def check_collision(
     # - given two coordinates, this function should check if there is a wall on the way through these
     # - points (probably a simmilar logic to the get_intersection function)
     return False
+
+def treatment(track : List[Tuple[int,int]]) -> List[Tuple[int,int]]:
+    for point in track:
+
+    return False
+    # - para os casos em que o caminho percorre uma mesma linha e volta, ele deve apenas manter o ponto de entrada daquela linha ()
+    # - manter somente o primeiro e o último ponto de uma linha, já que representam, respectivamente, o ponto de entrada e saída da linha
 def navigate2(
     m: List[List[int]],
     start: Tuple[int,int],
@@ -93,6 +100,7 @@ def navigate2(
         options = []
         if current[0] == end[0] or current[1] == end[1]:
             ######
+            path.append(current)
             path.append(end)
             return path #after this, we should have a function to build the path given the intersection points which make part of it
             done = True #Fim da navegação
@@ -248,4 +256,5 @@ if __name__ == "__main__":
     print(get_start_end(map))
     print(get_intersections(map))
     track = navigate2(map, start, end, intersections)
+    print(str(track))
     print_t_map(map, track)
